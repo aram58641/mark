@@ -8,5 +8,28 @@
 <body>
   <h1>📄 Загружаем Markdown...</h1>
   <div id="slides"></div>
+
+  <script type="module">
+    console.log("🚀 Скрипт запущен");
+
+    import { Marpit } from "https://esm.sh/@marp-team/marpit";
+
+    fetch('slides.md')
+      .then(response => response.text())
+      .then(markdown => {
+        console.log("📄 Markdown загружен:\n", markdown);
+
+        const marpit = new Marpit();
+        const { html, css } = marpit.render(markdown);
+
+        // Добавляем стили
+        const style = document.createElement("style");
+        style.innerHTML = css;
+        document.head.appendChild(style);
+
+        document.getElementById('slides').innerHTML = html;
+      })
+      .catch(err => console.error('❌ Ошибка загрузки Markdown:', err));
+  </script>
 </body>
 </html>
